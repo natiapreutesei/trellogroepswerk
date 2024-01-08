@@ -30,31 +30,26 @@ const { toggleCompleted, deleteToDo } = store;
     <div class="row">
       <div class="col-md-4 offset-md-4">
         <!-- We gebruiken de `v-for` directive om een to-do item voor elk item in onze `toDoList` te renderen. -->
-        <ul v-for="toDo in toDoList" :key="toDo.id" class="list-group">
-          <li class="list-group-item d-flex flex-row p-0">
-            <div class="d-flex flex-row align-items-center col-3">
-              <!-- We binden een click event aan de checkmark span, die `toggleCompleted` aanroept voor het huidige to-do item. -->
-              <!-- De `.stop` modifier voorkomt dat het click event wordt "gebubbled" naar hogere elementen. -->
-              <span @click.stop="toggleCompleted(toDo.id)"><i class="bi bi-check"></i></span>
 
-              <!-- We binden een click event aan de delete span, die `deleteToDo` aanroept voor het huidige to-do item. -->
-              <span @click="deleteToDo(toDo.id)" class="del-icoon me-3">&#9932;&nbsp;</span>
+        <drag-item v-model="toDoList" itemKey="id" class="list-group" :options="{ group: 'todoGroup', handle:'.gripicon' }">
+          <template #item="{ element }">
+            <li :key="element.id" class="list-group-item d-flex flex-row p-0">
+              <div class="d-flex flex-row align-items-center col-3">
+                <span @click.stop="toggleCompleted(element.id)"><i class="bi bi-check"></i></span>
+                <span @click="deleteToDo(element.id)" class="del-icoon me-3">&#9932;&nbsp;</span>
+              </div>
+
+              <div class="d-flex justify-content-between col-9">
+                <span :class="{ completed: element.completed }" class="d-flex align-items-center justify-content-start fw-bold">{{ element.item }}</span>
+                <span class="d-flex align-items-center justify-content-end px-4 text-bg-secondary gripicon">
+                  <i class="bi bi-grip-vertical"></i>
+                </span>
+              </div>
+            </li>
+          </template>
+        </drag-item>
 
 
-
-
-
-            </div>
-
-            <!-- We renderen de tekst van het to-do item. -->
-            <!-- Daarnaast gebruiken we Vue's bind directive (`v-bind` of `:`) om conditioneel de `completed` klasse toe te voegen aan het item. -->
-            <div class="d-flex justify-content-between col-9">
-              <span :class="{ completed: toDo.completed }" class="d-flex align-items-center justify-content-start fw-bold">{{ toDo.item }}</span>
-              <span class="d-flex align-items-center justify-content-end px-4 text-bg-secondary gripicon"><i class="bi bi-grip-vertical"></i></span>
-            </div>
-
-          </li>
-        </ul>
       </div>
     </div>
   </div>
