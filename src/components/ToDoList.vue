@@ -50,7 +50,7 @@ const { toggleCompleted, deleteToDo } = store;
             <!-- Daarnaast gebruiken we Vue's bind directive (`v-bind` of `:`) om conditioneel de `completed` klasse toe te voegen aan het item. -->
             <div class="d-flex justify-content-between col-9">
               <span :class="{ completed: toDo.completed }" class="d-flex align-items-center justify-content-start fw-bold">{{ toDo.item }}</span>
-              <span id="gripicon" class="d-flex align-items-center justify-content-end px-4 text-bg-secondary"><i class="bi bi-grip-vertical"></i></span>
+              <span class="d-flex align-items-center justify-content-end px-4 text-bg-secondary gripicon"><i class="bi bi-grip-vertical"></i></span>
             </div>
 
           </li>
@@ -61,7 +61,7 @@ const { toggleCompleted, deleteToDo } = store;
 </template>
 
 <style scoped>
-#gripicon{
+.gripicon{
   cursor:pointer;
 }
 
