@@ -16,18 +16,16 @@ const inputRef = ref(null);
 const store = useToDoListStore();
 
 const props = defineProps({
-  listName: String
+  listName: Object,
+  listId: String
 });
 
 // We definieren een functie `addItemAndClear` die een nieuw item aan onze to-do lijst toevoegt,
 // vervolgens de invoer leegt en de focus teruggeeft aan de invoer.
 function addItemAndClear(){
-  if(toDo.value.length === 0){
-    return;
-  }
-  store.addToDo(toDo.value);
-  toDo.value = '';
-  if(inputRef.value) {
+  if(toDo.value.trim()){
+    store.addToDo(props.listId, toDo.value);
+    toDo.value = '';
     inputRef.value.focus();
   }
 }
@@ -44,7 +42,7 @@ onMounted(() => {
   <div class="container-fluid">
     <div class="row">
       <div class="col-12">
-        <h1 class="text-center mb-3">{{ props.listName }}</h1>
+        <h1 class="text-center mb-3">{{ props.listName.name }}</h1>
         <!-- De vorm waarin de gebruiker een nieuw to-do item invoert. -->
         <!-- Wanneer de gebruiker het formulier indient, roepen we onze `addItemAndClear` functie aan. -->
         <!-- De `.prevent` modifier voorkomt dat de standaard form submit actie plaatsvindt, wat de pagina zou vernieuwen. -->

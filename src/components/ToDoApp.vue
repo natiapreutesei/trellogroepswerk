@@ -13,7 +13,7 @@ import { useToDoListStore } from '@/stores/toDoList.js';
 // De componenten zijn ToDOForm en ToDoList, beide worden opgehaald vanuit de maplocatie '@/components'.
 // De '@' is een alias voor de bron(src) map in het Vue-project.
 import ToDoForm from '@/components/ToDoForm.vue';
-// import ToDoList from '@/components/ToDoList.vue';
+import ToDoList from '@/components/ToDoList.vue';
 
 import { ref } from 'vue';
 
@@ -24,7 +24,7 @@ const store = useToDoListStore();
 const createNewList = () => {
   if (listName.value.trim()) {
     store.addList({ name: listName.value });
-    listName.value = ''; // Reset de input na het toevoegen
+    listName.value = '';
   }
 }
 
@@ -48,21 +48,17 @@ const createNewList = () => {
             <!-- Dynamisch renderen van ToDoForm voor elke lijst -->
             <div class="d-flex flex-row flex-wrap w-100">
               <to-do-form
-                v-for="list in store.toDoList"
+                v-for="list in store.appLists"
                 :key="list.id"
                 class="mb-3 my-custom-col"
                 :list-name="list.name"
-              ></to-do-form>
+                :list-id="list.id"
+              >
+
+              </to-do-form>
+              <to-do-list></to-do-list>
             </div>
 
-
-
-
-
-
-          <!--    &lt;!&ndash; En tenslotte hebben we het ToDoList-component. &ndash;&gt;-->
-          <!--    &lt;!&ndash; Dit component is verantwoordelijk voor het weergeven van de lijst met to-do-items op onze pagina. &ndash;&gt;-->
-          <!--    <to-do-list></to-do-list>-->
 
         </div>
 
