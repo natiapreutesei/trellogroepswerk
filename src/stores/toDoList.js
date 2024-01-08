@@ -2,6 +2,11 @@
 // De `defineStore` functie wordt gebruikt om een nieuwe store te definiëren.
 import { defineStore } from 'pinia';
 
+function generateUniqueId() {
+  const date = new Date();
+  return date.getTime().toString();
+}
+
 // We definiëren onze store met de naam 'todoList'. Dit maakt een unieke store aan die we kunnen gebruiken om de staat van onze to-do lijst te beheren.
 // De functie `defineStore` keert een andere functie terug genaamd `useToDoListStore`, die we zullen exporteren.
 export const useToDoListStore = defineStore('todoList', {
@@ -24,9 +29,15 @@ export const useToDoListStore = defineStore('todoList', {
   // Je voegt dit nieuwe to-do item vervolgens toe aan het begin van je todoList array met behulp van de JavaScript methode unshift
     
     addToDo(item) {
+      const uniqueId = generateUniqueId();
+      console.log(uniqueId);
       // Elk to-do item is een object met eigenschappen: item (de tekst), id (een uniek identificatienummer),
       // en completed (een boolean waarde of de taak is voltooid of niet)
-      this.toDoList.unshift({ item: item, id: this.id++, completed: false });
+      this.toDoList.unshift({
+        item: item,
+        id: uniqueId,
+        completed: false
+      });
     },
     
     // Actie om een to-do item uit `toDoList` te verwijderen op basis van zijn id (`itemId`).
