@@ -32,7 +32,7 @@ const { toggleCompleted, deleteToDo } = store;
         <!-- We gebruiken de `v-for` directive om een to-do item voor elk item in onze `toDoList` te renderen. -->
         <ul v-for="toDo in toDoList" :key="toDo.id" class="list-group">
           <li class="list-group-item d-flex flex-row p-0">
-            <div class="d-flex flex-row align-items-center">
+            <div class="d-flex flex-row align-items-center col-3">
               <!-- We binden een click event aan de checkmark span, die `toggleCompleted` aanroept voor het huidige to-do item. -->
               <!-- De `.stop` modifier voorkomt dat het click event wordt "gebubbled" naar hogere elementen. -->
               <span @click.stop="toggleCompleted(toDo.id)"><i class="bi bi-check"></i></span>
@@ -40,14 +40,18 @@ const { toggleCompleted, deleteToDo } = store;
               <!-- We binden een click event aan de delete span, die `deleteToDo` aanroept voor het huidige to-do item. -->
               <span @click="deleteToDo(toDo.id)" class="del-icoon me-3">&#9932;&nbsp;</span>
 
-              <!-- We renderen de id van het to-do item, plus 1 (omdat we starten met tellen vanaf 0). -->
-              <span class="me-3">{{ toDo.id + 1 }}</span>
+
+
+
 
             </div>
 
             <!-- We renderen de tekst van het to-do item. -->
             <!-- Daarnaast gebruiken we Vue's bind directive (`v-bind` of `:`) om conditioneel de `completed` klasse toe te voegen aan het item. -->
-            <span :class="{ completed: toDo.completed }" class="d-flex align-items-center fw-bold">{{ toDo.item }}</span>
+            <div class="d-flex justify-content-between col-9">
+              <span :class="{ completed: toDo.completed }" class="d-flex align-items-center justify-content-start fw-bold">{{ toDo.item }}</span>
+              <span id="gripicon" class="d-flex align-items-center justify-content-end px-4 text-bg-secondary"><i class="bi bi-grip-vertical"></i></span>
+            </div>
 
           </li>
         </ul>
@@ -57,6 +61,10 @@ const { toggleCompleted, deleteToDo } = store;
 </template>
 
 <style scoped>
+#gripicon{
+  cursor:pointer;
+}
+
 .completed{
   text-decoration: line-through;
   text-decoration-color:red;
