@@ -21,13 +21,22 @@ export const useToDoListStore = defineStore('todoList', {
     },
     addToDo(listId, item) {
       const uniqueId = generateUniqueId();
+      console.log('Generated uniqueId:', uniqueId); // Log the generated uniqueId
+      
       const list = this.appLists.find(l => l.id === listId);
+      console.log('Found list:', list); // Log the found list
+      
       if (list) {
-        list.tasks.unshift({
+        const newTask = {
           item: item,
           id: uniqueId,
           completed: false
-        });
+        };
+        console.log('New task:', newTask); // Log the new task before adding it to the list
+        
+        list.tasks.unshift(newTask);
+        
+        console.log('Updated list:', list); // Log the updated list
       }
     },
     deleteToDo(listId, itemId) {

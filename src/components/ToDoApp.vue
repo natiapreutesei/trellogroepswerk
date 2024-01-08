@@ -46,18 +46,20 @@ const createNewList = () => {
             <!-- Binnen deze div hebben we een h1-element dat fungeert als de hoofdkop voor onze to-do lijstpagina. -->
 
             <!-- Dynamisch renderen van ToDoForm voor elke lijst -->
-            <div class="d-flex flex-row flex-wrap w-100">
+          <div class="d-flex flex-row flex-wrap w-100">
+            <div
+              v-for="list in store.appLists"
+              :key="list.id"
+              class="mb-3 my-custom-col"
+            >
               <to-do-form
-                v-for="list in store.appLists"
-                :key="list.id"
-                class="mb-3 my-custom-col"
                 :list-name="list.name"
                 :list-id="list.id"
               >
-
               </to-do-form>
-              <to-do-list></to-do-list>
+              <to-do-list :list-id="list.id"></to-do-list>
             </div>
+          </div>
 
 
         </div>

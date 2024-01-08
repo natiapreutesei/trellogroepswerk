@@ -28,6 +28,14 @@ const props = defineProps({
 
 import { computed } from 'vue';
 
+// let listTasks = [];
+// let displayTasks = ref([]);
+//
+// watch(() => store.appLists.find(l => l.id === props.listId).tasks, newTasks => {
+//   listTasks = newTasks; // Update listTasks when the tasks in the store change
+//   displayTasks.value = [...listTasks]; // Update displayTasks when listTasks changes
+// });
+
 const listTasks = computed(() => {
   const list = store.appLists.find(l => l.id === props.listId);
   return list ? list.tasks : [];
@@ -40,7 +48,7 @@ const listTasks = computed(() => {
   <!-- Deze code zal worden gerendered om het lijstgedeelte van onze app weer te geven. -->
   <div class="container">
     <div class="row">
-      <div class="col-md-4 offset-md-4">
+      <div class="col-12">
         <!-- We gebruiken de `v-for` directive om een to-do item voor elk item in onze `toDoList` te renderen. -->
 
         <drag-item v-model="listTasks" itemKey="id" class="list-group" :options="{ group: 'todoGroup', handle:'.gripicon' }">

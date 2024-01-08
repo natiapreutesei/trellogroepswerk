@@ -46,7 +46,7 @@ onMounted(() => {
         <!-- De vorm waarin de gebruiker een nieuw to-do item invoert. -->
         <!-- Wanneer de gebruiker het formulier indient, roepen we onze `addItemAndClear` functie aan. -->
         <!-- De `.prevent` modifier voorkomt dat de standaard form submit actie plaatsvindt, wat de pagina zou vernieuwen. -->
-        <form @submit.prevent="addItemAndClear(toDo)" class="d-flex flex-row">
+        <form @submit.prevent="addItemAndClear(toDo)" class="d-flex flex-row mb-3">
           <!-- De invoer waar de gebruiker zijn nieuwe to-do item invoert. -->
           <!-- De `v-model` directive maakt tweerichtingsbinding mogelijk tussen het probleem en de invoer. -->
           <!-- De `ref` attribuut geeft ons een referentie naar deze invoer. -->
