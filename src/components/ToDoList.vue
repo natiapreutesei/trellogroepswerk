@@ -33,7 +33,7 @@ const { toggleCompleted, deleteToDo } = store;
 
         <drag-item v-model="toDoList" itemKey="id" class="list-group" :options="{ group: 'todoGroup', handle:'.gripicon' }">
           <template #item="{ element }">
-            <li :key="element.id" class="list-group-item d-flex flex-row p-0">
+            (<li :key="element.id" class="list-group-item d-flex flex-row p-0">
               <div class="d-flex flex-row align-items-center col-3">
                 <span @click.stop="toggleCompleted(element.id)"><i class="bi bi-check"></i></span>
                 <span @click="deleteToDo(element.id)" class="del-icoon me-3">&#9932;&nbsp;</span>
@@ -45,7 +45,7 @@ const { toggleCompleted, deleteToDo } = store;
                   <i class="bi bi-grip-vertical"></i>
                 </span>
               </div>
-            </li>
+            </li>)
           </template>
         </drag-item>
 

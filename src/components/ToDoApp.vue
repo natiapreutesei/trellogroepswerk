@@ -1,9 +1,33 @@
 <script setup>
+
+
+import { useToDoListStore } from '@/stores/toDoList.js';
+//
+// import { storeToRefs } from 'pinia';
+//
+
+//
+// const { toDoList } = storeToRefs(store);
+
 // We importeren hier twee andere Vue-componenten die we in dit component gaan gebruiken.
 // De componenten zijn ToDOForm en ToDoList, beide worden opgehaald vanuit de maplocatie '@/components'.
 // De '@' is een alias voor de bron(src) map in het Vue-project.
 import ToDoForm from '@/components/ToDoForm.vue';
-import ToDoList from '@/components/ToDoList.vue';
+// import ToDoList from '@/components/ToDoList.vue';
+
+import { ref } from 'vue';
+
+const listName = ref('');
+
+const store = useToDoListStore();
+
+const createNewList = () => {
+  if (listName.value.trim()) {
+    store.addList({ name: listName.value });
+    listName.value = ''; // Reset de input na het toevoegen
+  }
+}
+
 </script>
 
 <template>
@@ -11,18 +35,36 @@ import ToDoList from '@/components/ToDoList.vue';
   <!-- Deze code zal worden gerendered om de pagina van onze app weer te geven. -->
 
   <!-- We beginnen met een div-element met een klas 'to-do-app', een container waarin alle andere elementen worden geplaatst. -->
-  <div class="to-do-app">
 
-    <!-- Binnen deze div hebben we een h1-element dat fungeert als de hoofdkop voor onze to-do lijstpagina. -->
-    <h1 class="text-center mb-3">To Do List</h1>
+        <div class="to-do-app">
 
-    <!-- Vervolgens hebben we het ToDoForm-component. -->
-    <!-- Dit wordt waarschijnlijk gebruikt voor het invoeren en indienen van nieuwe to-do-items. -->
-    <to-do-form class="mb-3"></to-do-form>
 
-    <!-- En tenslotte hebben we het ToDoList-component. -->
-    <!-- Dit component is verantwoordelijk voor het weergeven van de lijst met to-do-items op onze pagina. -->
-    <to-do-list></to-do-list>
+            <div class="d-flex justify-content-center my-4">
+              <input type="text" class="form fs-4 me-3" placeholder="Geef lijstnaam in..." v-model="listName">
+              <button class="btn btn-success" @click="createNewList">+</button>
+            </div>
+            <!-- Binnen deze div hebben we een h1-element dat fungeert als de hoofdkop voor onze to-do lijstpagina. -->
 
-  </div>
+            <!-- Dynamisch renderen van ToDoForm voor elke lijst -->
+            <div class="d-flex flex-row flex-wrap justify-content-start">
+              <to-do-form
+                v-for="list in store.toDoList"
+                :key="list.id"
+                class="mb-3 w-25"
+                :list-name="list.name"
+              ></to-do-form>
+            </div>
+
+
+
+
+
+
+          <!--    &lt;!&ndash; En tenslotte hebben we het ToDoList-component. &ndash;&gt;-->
+          <!--    &lt;!&ndash; Dit component is verantwoordelijk voor het weergeven van de lijst met to-do-items op onze pagina. &ndash;&gt;-->
+          <!--    <to-do-list></to-do-list>-->
+
+        </div>
+
+
 </template>

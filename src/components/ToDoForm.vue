@@ -15,6 +15,9 @@ const inputRef = ref(null);
 // We creëren een instantie van onze to-do list store door de `useToDoListStore` functie aan te roepen.
 const store = useToDoListStore();
 
+const props = defineProps({
+  listName: String
+});
 
 // We definieren een functie `addItemAndClear` die een nieuw item aan onze to-do lijst toevoegt,
 // vervolgens de invoer leegt en de focus teruggeeft aan de invoer.
@@ -38,9 +41,10 @@ onMounted(() => {
 
 <template>
   <!-- Dit is de HTML voor ons ToDoForm component. -->
-  <div class="container">
+  <div class="container-fluid">
     <div class="row">
-      <div class="col-md-4 offset-md-4">
+      <div class="col-12">
+        <h1 class="text-center mb-3">{{ props.listName }}</h1>
         <!-- De vorm waarin de gebruiker een nieuw to-do item invoert. -->
         <!-- Wanneer de gebruiker het formulier indient, roepen we onze `addItemAndClear` functie aan. -->
         <!-- De `.prevent` modifier voorkomt dat de standaard form submit actie plaatsvindt, wat de pagina zou vernieuwen. -->
@@ -48,7 +52,7 @@ onMounted(() => {
           <!-- De invoer waar de gebruiker zijn nieuwe to-do item invoert. -->
           <!-- De `v-model` directive maakt tweerichtingsbinding mogelijk tussen het probleem en de invoer. -->
           <!-- De `ref` attribuut geeft ons een referentie naar deze invoer. -->
-          <input class="form-control me-2" v-model="toDo" ref="inputRef" type="text" placeholder="Geef tekst in...">
+          <input class="form-control me-2" v-model="toDo" ref="inputRef" type="text" placeholder="Geef taak in...">
           <!-- De knop die de gebruiker klikt om het formulier in te dienen. -->
           <button class="btn btn-primary">Add</button>
         </form>

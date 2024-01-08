@@ -13,13 +13,19 @@ export const useToDoListStore = defineStore('todoList', {
   // Binnenkant van onze store definiëren we eerst de initiale staat. In onze staat hebben we een lijst van to-dos(`toDoList`) en een id teller(`id`).
   state: () => ({
     toDoList: [],
-    id: 0
   }),
-  
   // Vervolgens definiëren we acties. Acties zijn functies die we kunnen aanroepen op onze store om de staat te wijzigen.
   // Acties in de store vormen de belangrijkste methoden waarmee je de status kunt wijzigen.
   // In je to-do lijst store heb je drie acties gedefinieerd: addToDo, deleteToDo, en toggleCompleted.
   actions: {
+    addList(list) {
+      const uniqueId = generateUniqueId();
+      const newList = {
+        ...list,
+        id: uniqueId
+      };
+      this.toDoList.push(newList);
+    },
     // Actie om een nieuwe to-do toe te voegen aan `toDoList` met een gegeven item tekst(`item`).
     // Deze actie wordt aangeroepen als je een nieuw to-do item wilt toevoegen aan je to-do lijst.
     // Het neemt één parameter, item, dat de tekst van het nieuwe to-do item zou zijn.
@@ -27,7 +33,6 @@ export const useToDoListStore = defineStore('todoList', {
     // Het object heeft de velden item (de to-do tekst), id (een unieke id die is gegenereerd van de huidige waarde van this.id++),
     // en completed (een Boolean waarde dat aangeeft of het item is voltooid, in eerste instantie ingesteld op false).
   // Je voegt dit nieuwe to-do item vervolgens toe aan het begin van je todoList array met behulp van de JavaScript methode unshift
-    
     addToDo(item) {
       const uniqueId = generateUniqueId();
       console.log(uniqueId);
@@ -63,3 +68,4 @@ export const useToDoListStore = defineStore('todoList', {
     }
   }
 })
+
