@@ -43,7 +43,7 @@ onMounted(() => {
     <div class="row">
       <div class="col-12">
         <div class="d-flex flex-row justify-content-center mb-3">
-          <h1 class="my-0 me-2">{{ props.listName.name }}</h1>
+          <h1 class="my-0 me-2 text-break">{{ props.listName.name }}</h1>
           <button @click="store.deleteList(props.listId)" class="btn btn-danger">x</button>
         </div>
         <!-- De vorm waarin de gebruiker een nieuw to-do item invoert. -->

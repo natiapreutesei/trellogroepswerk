@@ -1,2 +1,5 @@
 /*@import './base.css';*/
 
+.drop-shadow{
+    box-shadow: 7px 7px 1px 1px black;
+}

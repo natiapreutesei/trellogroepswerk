@@ -28,6 +28,8 @@ const createNewList = () => {
   }
 }
 
+
+
 </script>
 
 <template>
@@ -38,11 +40,24 @@ const createNewList = () => {
 
         <div class="to-do-app">
 
+          <div class="d-flex justify-content-center my-4">
+            <form class="d-flex align-items-center" @submit.prevent="createNewList">
 
-            <div class="d-flex justify-content-center my-4">
-              <input type="text" class="form fs-4 me-3" placeholder="Geef lijstnaam in..." v-model="listName">
-              <button class="btn btn-success bi-clipboard-plus" @click="createNewList"></button>
-            </div>
+
+              <input
+                  type="text"
+                  class="form fs-6 me-3 drop-shadow border-1 border-dark form-control text-wrap"
+                  placeholder="Geef lijstnaam in..."
+                  v-model="listName"
+                  :maxlength="30"
+
+              />
+              <button type="submit" class="btn btn-success bi-clipboard-plus drop-shadow"></button>
+            </form>
+          </div>
+
+
+
             <!-- Binnen deze div hebben we een h1-element dat fungeert als de hoofdkop voor onze to-do lijstpagina. -->
 
             <!-- Dynamisch renderen van ToDoForm voor elke lijst -->
