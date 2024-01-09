@@ -40,19 +40,19 @@ const createNewList = () => {
 
         <div class="to-do-app">
 
-          <div class="d-flex justify-content-center my-4">
+          <div class="d-flex justify-content-center mt-4">
             <form class="d-flex align-items-center" @submit.prevent="createNewList">
 
 
               <input
                   type="text"
-                  class="form fs-6 me-3 drop-shadow border-1 border-dark form-control text-wrap"
+                  class="form fs-6 me-3 border-1 border-dark form-control text-wrap"
                   placeholder="Geef lijstnaam in..."
                   v-model="listName"
                   :maxlength="30"
 
               />
-              <button type="submit" class="btn btn-success bi-clipboard-plus drop-shadow"></button>
+              <button type="submit" class="btn btn-success bi-clipboard-plus"></button>
             </form>
           </div>
 
