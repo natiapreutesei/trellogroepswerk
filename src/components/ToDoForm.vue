@@ -42,9 +42,13 @@ onMounted(() => {
   <div class="container-fluid">
     <div class="row">
       <div class="col-12">
-        <div class="d-flex flex-row justify-content-center mb-3">
-          <h1 class="my-0 me-2 text-break">{{ props.listName.name }}</h1>
-          <button @click="store.deleteList(props.listId)" class="btn btn-danger">x</button>
+        <div class="d-flex flex-row justify-content-center mb-3 align-items-center">
+          <div class="py-2">
+            <h1 class="my-0 me-2 text-break">{{ props.listName.name }}</h1>
+          </div>
+          <div class="p-2">
+            <button @click="store.deleteList(props.listId)" class="btn btn-danger">x</button>
+          </div>
         </div>
         <!-- De vorm waarin de gebruiker een nieuw to-do item invoert. -->
         <!-- Wanneer de gebruiker het formulier indient, roepen we onze `addItemAndClear` functie aan. -->

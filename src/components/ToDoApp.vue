@@ -61,11 +61,11 @@ const createNewList = () => {
             <!-- Binnen deze div hebben we een h1-element dat fungeert als de hoofdkop voor onze to-do lijstpagina. -->
 
             <!-- Dynamisch renderen van ToDoForm voor elke lijst -->
-          <div class="d-flex flex-row flex-wrap w-100 ">
+          <div class="d-flex flex-row flex-wrap w-100 my-4 p-2">
             <div
               v-for="list in store.appLists"
               :key="list.id"
-              class="mb-3 my-custom-col border border-dark"
+              class="mb-3 my-custom-col border border-dark border-1 rounded-2 drop-shadow bg-white"
             >
               <to-do-form
                 :list-name="list.name"

@@ -9,7 +9,7 @@ import ToDoApp from '@/components/ToDoApp.vue';
 <template>
   <nav class="navbar navbar-expand-lg bg-body-secondary py-3">
     <div class="container-fluid d-flex justify-content-center">
-      <div class="drop-shadow border rounded-2 border-dark px-4 py-1">
+      <div class="drop-shadow border rounded-2 border-dark bg-white px-4 py-1">
         <a class="navbar-brand fw-light fs-2 m-0" href="#">Trello Clone</a>
       </div>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -19,8 +19,11 @@ import ToDoApp from '@/components/ToDoApp.vue';
   </nav>
 
   <to-do-app></to-do-app>
-  <footer class="bg-light-subtle text-center fixed-bottom py-2">
-    <p class="m-0">Groepswerk van Anik, Ruben & Natanael</p>
+  <footer class="bg-light-subtle text-center fixed-bottom">
+    <div class="bg-secondary-subtle">
+      <p class="m-0 py-2">Groepswerk van Anik, Ruben & Natanael
+      </p>
+    </div>
   </footer>
 </template>
 
