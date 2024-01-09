@@ -37,10 +37,18 @@ watchEffect(() => {
 <template>
 
 
-  <div v-if="props.selectedBoard && props.board.id === props.selectedBoard.id" class="d-flex justify-content-center my-4">
-    <input type="text" class="form fs-4 me-3" placeholder="Geef lijstnaam in..." v-model="listName">
-    <button class="btn btn-success bi-clipboard-plus" @click="createNewList"></button>
+  <div v-if="props.selectedBoard && props.board.id === props.selectedBoard.id" class="d-flex justify-content-center my-5">
+    <form @submit.prevent="createNewList" class="d-flex">
+      <input
+          type="text"
+          class="form form-control fs-5 me-3 border-dark"
+          placeholder="Geef lijstnaam in..."
+          v-model="listName"
+          :maxlength="30">
+      <button type="submit" class="btn btn-success bi-clipboard-plus"></button>
+    </form>
   </div>
+
 
     <div class="d-flex flex-row flex-wrap w-100 ">
       <div

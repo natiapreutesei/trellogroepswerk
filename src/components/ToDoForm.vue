@@ -24,7 +24,7 @@ function addItemAndClear(){
 <template>
   <div class="container-fluid">
     <div class="row">
-      <div class="col-12">
+      <div class="col-12 ">
 
         <div class="d-flex flex-row justify-content-center mb-3">
           <h1 class="my-0 me-2">{{ listName }}</h1>
