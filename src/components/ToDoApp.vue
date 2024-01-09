@@ -19,7 +19,10 @@ const createNewList = () => {
     listName.value = '';
   }
 }
-
+function handleDragEnd(event) {
+  // Implement logic to update the store based on new order
+  store.reorderLists(event.to.children);
+}
 </script>
 
 <template>
@@ -29,8 +32,6 @@ const createNewList = () => {
   <!-- We beginnen met een div-element met een klas 'to-do-app', een container waarin alle andere elementen worden geplaatst. -->
 
         <div class="to-do-app">
-
-
             <div class="d-flex justify-content-center my-4">
               <input type="text" class="form fs-4 me-3" placeholder="Geef lijstnaam in..." v-model="listName">
               <button class="btn btn-success bi-clipboard-plus" @click="createNewList"></button>
@@ -38,25 +39,15 @@ const createNewList = () => {
             <!-- Binnen deze div hebben we een h1-element dat fungeert als de hoofdkop voor onze to-do lijstpagina. -->
 
             <!-- Dynamisch renderen van ToDoForm voor elke lijst -->
-          <div class="d-flex flex-row flex-wrap w-100 ">
-            <div
-              v-for="list in store.appLists"
-              :key="list.id"
-              class="mb-3 my-custom-col border border-dark"
-            >
-              <to-do-form
-                :list-name="list.name"
-                :list-id="list.id"
-              >
-              </to-do-form>
-              <to-do-list :list-id="list.id"></to-do-list>
-            </div>
-          </div>
-
-
+          <drag-item class="lists-container d-flex flex-row flex-wrap w-100" item-key="id" :list="store.appLists" @end="handleDragEnd">
+            <template #item="{element}">
+              <div :key="element.id" class="mb-3 my-custom-col border border-dark">
+                <to-do-form :list-name="element.name" :list-id="element.id"></to-do-form>
+                <to-do-list :list-id="element.id"></to-do-list>
+              </div>
+            </template>
+          </drag-item>
         </div>
-
-
 </template>
 
 <style scoped>
@@ -65,5 +56,4 @@ const createNewList = () => {
   margin-left: 10px;
   margin-right: 10px;
 }
-
 </style>

@@ -41,10 +41,10 @@ onMounted(() => {
   <!-- Dit is de HTML voor ons ToDoForm component. -->
   <div class="container-fluid">
     <div class="row">
-      <div class="col-12">
+      <div class="col-12 p-0  ">
         <div
           id="griptitle"
-          :class="['text-center text-bg-light m-0 fs-1 rounded-top-3 border-4 border-top border-start border-end']">
+          :class="['text-center text-bg-light m-0 fs-1 bg-secondary mb-3 border-bottom border-dark']">
           <i class="bi bi-grip-horizontal"></i>
         </div>
         <div class="d-flex flex-row justify-content-center mb-3">
@@ -54,11 +54,12 @@ onMounted(() => {
         <!-- De vorm waarin de gebruiker een nieuw to-do item invoert. -->
         <!-- Wanneer de gebruiker het formulier indient, roepen we onze `addItemAndClear` functie aan. -->
         <!-- De `.prevent` modifier voorkomt dat de standaard form submit actie plaatsvindt, wat de pagina zou vernieuwen. -->
-        <form @submit.prevent="addItemAndClear(toDo)" class="d-flex flex-row mb-3">
+        <form @submit.prevent="addItemAndClear(toDo)" class="d-flex flex-row mb-3 p-2">
           <!-- De invoer waar de gebruiker zijn nieuwe to-do item invoert. -->
           <!-- De `v-model` directive maakt tweerichtingsbinding mogelijk tussen het probleem en de invoer. -->
           <!-- De `ref` attribuut geeft ons een referentie naar deze invoer. -->
-          <input class="form-control rounded-0 me-2" v-model="toDo" ref="inputRef" type="text" placeholder="Geef taak in...">
+          <input class="form-control rounded-0 me-2" v-model="toDo" ref="inputRef" type="text"
+                 placeholder="Geef taak in...">
           <!-- De knop die de gebruiker klikt om het formulier in te dienen. -->
           <button class="btn btn-dark rounded-0">Add</button>
         </form>

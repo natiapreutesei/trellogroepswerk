@@ -15,12 +15,20 @@ export const useToDoListStore = defineStore('todoList', {
       this.appLists = this.appLists.filter(list => list.id !== listId);
     },
     addList(listName) {
+      console.log('Before adding:', this.appLists);
       const uniqueId = generateUniqueId();
       this.appLists.push({
         id: uniqueId,
         name: listName,
         tasks: []
       });
+      console.log('After adding:', this.appLists);
+    },
+    reorderLists(newOrder) {
+      // Assuming newOrder is an array of elements, extract the list IDs
+      const orderedIds = Array.from(newOrder).map(element => element.id);
+      // Sort appLists based on the order of ids in orderedIds
+      this.appLists.sort((a, b) => orderedIds.indexOf(a.id) - orderedIds.indexOf(b.id));
     },
     addToDo(listId, item) {
       const uniqueId = generateUniqueId();
