@@ -45,9 +45,17 @@ watchEffect(() => {
 <!-- Het <template> gedeelte beschrijft wat er gerenderd moet worden door dit component. -->
 <template>
   <!-- We tonen een invoerveld en een knop om een nieuwe lijst te maken als het geselecteerde bord hetzelfde is als het bord van dit component. -->
-  <div v-if="props.selectedBoard && props.board.id === props.selectedBoard.id" class="d-flex flex-row mx-auto my-4 col-3">
-    <input type="text" class="form-control fs-4 me-3" placeholder="Geef lijstnaam in..." v-model="listName">
-    <button class="btn btn-success bi-clipboard-plus" @click="createNewList"></button>
+  <div v-if="props.selectedBoard && props.board.id === props.selectedBoard.id" class="d-flex justify-content-center my-3">
+    <form @submit.prevent="createNewList" class="d-flex flex-row mb-3 col-3">
+      <div class="col-9">
+        <div class="me-2">
+          <input type="text" class="form-control fs-4 me-3" placeholder="Geef lijstnaam in..." v-model="listName" maxlength="30">
+        </div>
+      </div>
+      <div class="col-3">
+        <button class="btn btn-success bi-clipboard-plus" @click="createNewList" style="height: 100%"></button>
+      </div>
+    </form>
   </div>
 
   <!-- We renderen een "ToDoForm" en een "ToDoList" component voor elke lijst in het huidige bord. -->

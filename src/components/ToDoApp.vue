@@ -36,10 +36,20 @@ const selectBoard = (board) => {
 <template>
   <!-- We tonen een invoerveld en een knop om een nieuw bord te maken. -->
   <div class="to-do-app">
-    <div class="d-flex flex-row mx-auto col-3 my-4">
-      <input type="text" class="form-control fs-4 me-3" placeholder="Geef bordnaam in..." v-model="bordName">
-      <button class="btn btn-success bi-clipboard-plus" @click="createNewBoard"></button>
+
+    <div class="d-flex justify-content-center my-3">
+      <form @submit.prevent="createNewBoard" class="d-flex flex-row mb-3 col-3">
+        <div class="col-9">
+          <div class="me-2">
+            <input type="text" class="form-control fs-4 me-3" placeholder="Geef bordnaam in..." v-model="bordName" maxlength="30">
+          </div>
+        </div>
+        <div class="col-3">
+          <button class="btn btn-success bi-clipboard-plus" @click="createNewBoard" style="height: 100%"></button>
+        </div>
+      </form>
     </div>
+
 
     <!-- We renderen een "ToDoBoard" component voor elk bord in de store. -->
     <div class="d-flex flex-row flex-wrap w-100">
