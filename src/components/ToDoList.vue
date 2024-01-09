@@ -70,10 +70,10 @@ const onEnd = (evt) => {
   <div class="container">
     <div class="row">
       <div class="col-12">
-        <drag-item v-model="listTasks" itemKey="id" class="list-group" @start="onDragStart" @end="onEnd" group="todoGroup" :data-list-id="props.listId">
+        <drag-item v-model="listTasks" itemKey="id" class="list-group containerItem" @start="onDragStart" @end="onEnd" group="todoGroup" :data-list-id="props.listId">
           <template #item="{ element }">
             <div :key="element.id" :data-task-id="element.id">
-              <div class="list-group-item d-flex flex-row p-0 draggable-item mb-2">
+              <div class="list-group-item d-flex flex-row p-0 draggable-item mb-2 ">
                 <div class="d-flex flex-row align-items-center col-3">
                   <span @click.stop="handleDeleteToDo(element.id)"><i class="bi bi-check"></i></span>
                   <span @click="handleToggleCompleted(element.id)" class="del-icon me-3">&#9932;&nbsp;</span>
@@ -136,8 +136,10 @@ const onEnd = (evt) => {
     transform: translateX(5px);
   }
 }
-
 .shaking {
   animation: shake 0.5s ease infinite;
+}
+.containerItem{
+  min-height: 80px;
 }
 </style>
