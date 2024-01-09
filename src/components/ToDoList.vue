@@ -43,17 +43,37 @@ const updateTasks = () => {
 watch(boardId, updateTasks, { deep: true });
 watch(listId, updateTasks, { deep: true });
 
+// We kijken naar de takenlijst van de huidige lijst in de store. Als deze verandert, updaten we de "listTasks" referentie.
+watch(() => store.appLists[boardId.value][listId.value]?.tasks, tasks => {
+  if (tasks) {
+    listTasks.value = tasks;
+  }
+}, { deep: true });
+
 // We updaten de lijst van taken wanneer het component wordt gemount.
 onMounted(updateTasks);
 
 // We definiëren een functie om het einde van een sleepbeweging te verwerken. Deze functie verplaatst de taak naar een andere lijst als nodig en update de lijst van taken.
+// In ToDoList.vue
 const handleDragEnd = (evt) => {
+  // We halen de ID van de lijst waar de taak naartoe is gesleept uit het "data-list-id" attribuut van het doelelement.
   const toListId = evt.to.dataset.listId;
+  // We halen de ID van de lijst waar de taak vandaan komt uit de "listId" prop.
   const fromListId = props.listId;
+  // We halen de ID van de taak uit het "data-task-id" attribuut van het gesleepte element.
   const taskId = evt.item.dataset.taskId;
+  // We halen de nieuwe positie van de taak uit de "newDraggableIndex" eigenschap van het event object.
+  // Deze positie is de index van het gesleepte element in de kinderen van het doelelement.
+  const newPosition = evt.newDraggableIndex;
 
+  // We controleren of alle benodigde informatie aanwezig is en of de taak naar een andere lijst is verplaatst.
   if (toListId && fromListId && taskId && toListId !== fromListId) {
-    store.moveTask(props.boardId, fromListId, props.boardId, toListId, taskId);
+    // Als dat het geval is, roepen we de "moveTask" functie aan om de taak te verplaatsen.
+    // We geven het ID van het bord, het ID van de lijst waar de taak vandaan komt, het ID van het bord waar de taak naartoe gaat (in dit geval hetzelfde bord),
+    // het ID van de lijst waar de taak naartoe gaat, het ID van de taak en de nieuwe positie van de taak door aan de functie.
+    store.moveTask(props.boardId, fromListId, props.boardId, toListId, taskId, newPosition);
+    // Daarna updaten we de "listTasks" referentie om de weergave bij te werken.
+    // We halen de nieuwe lijst van taken uit de store. Als de lijst niet bestaat, gebruiken we een lege array.
     listTasks.value = store.appLists[props.boardId][props.listId]?.tasks || [];
   }
 };

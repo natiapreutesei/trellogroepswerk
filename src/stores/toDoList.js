@@ -75,7 +75,7 @@ export const useToDoListStore = defineStore('todoList', {
           item: item,
           completed: false
         };
-        list.tasks.push(task);
+        list.tasks.unshift(task);
       }
     },
     // De "deleteToDo" functie verwijdert een taak van een specifieke lijst van een specifiek bord.
@@ -105,7 +105,8 @@ export const useToDoListStore = defineStore('todoList', {
       return list ? list.tasks : [];
     },
     // De "moveTask" functie verplaatst een taak van een lijst naar een andere lijst.
-    moveTask(fromBoardId, fromListId, toBoardId, toListId, taskId) {
+    // De functie accepteert nu een extra parameter "newPosition", die de nieuwe positie van de taak in de doellijst aangeeft.
+    moveTask(fromBoardId, fromListId, toBoardId, toListId, taskId, newPosition) {
       // We halen de lijst op waar de taak nu in zit.
       const fromList = this.appLists[fromBoardId][fromListId];
       // We halen de lijst op waar we de taak naar toe willen verplaatsen.
@@ -114,9 +115,10 @@ export const useToDoListStore = defineStore('todoList', {
       const taskIndex = fromList?.tasks.findIndex(task => task.id === taskId);
       // Als de taak bestaat en beide lijsten bestaan, verplaatsen we de taak.
       if (taskIndex > -1 && fromList && toList) {
-        // We verwijderen de taak uit de huidige lijst en voegen deze toe aan de nieuwe lijst.
+        // We verwijderen de taak uit de huidige lijst.
         const [task] = fromList.tasks.splice(taskIndex, 1);
-        toList.tasks.push(task);
+        // We voegen de taak toe aan de nieuwe lijst op de opgegeven positie.
+        toList.tasks.splice(newPosition, 0, task);
       }
     },
     // De "updateTasksOrder" functie verandert de volgorde van de taken in een specifieke lijst van een specifiek bord.
