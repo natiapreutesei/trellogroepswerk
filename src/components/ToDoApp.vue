@@ -1,13 +1,5 @@
 <script setup>
-
-
 import { useToDoListStore } from '@/stores/toDoList.js';
-//
-// import { storeToRefs } from 'pinia';
-//
-
-//
-// const { toDoList } = storeToRefs(store);
 
 // We importeren hier twee andere Vue-componenten die we in dit component gaan gebruiken.
 // De componenten zijn ToDOForm en ToDoList, beide worden opgehaald vanuit de maplocatie '@/components'.
