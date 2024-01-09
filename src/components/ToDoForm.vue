@@ -25,9 +25,11 @@ function addItemAndClear(){
   <div class="container-fluid">
     <div class="row">
       <div class="col-12">
+
         <div class="d-flex flex-row justify-content-center mb-3">
           <h1 class="my-0 me-2">{{ listName }}</h1>
           <button @click="store.deleteListFromBoard(boardId,listId)" class="btn btn-danger">x</button>
+
         </div>
         <form @submit.prevent="addItemAndClear(toDo)" class="d-flex flex-row mb-3">
           <input class="form-control rounded-0 me-2" v-model="toDo" ref="inputRef" type="text" placeholder="Geef taak in...">

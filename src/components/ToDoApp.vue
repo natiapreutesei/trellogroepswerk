@@ -14,6 +14,7 @@ const createNewBoard = () => {
   }
 }
 
+
 const selectedBoard = ref(null);
 
 const selectBoard = (board) => {
@@ -29,12 +30,12 @@ const selectBoard = (board) => {
       <button class="btn btn-success bi-clipboard-plus" @click="createNewBoard"></button>
     </div>
 
+
     <div class="d-flex flex-row flex-wrap w-100">
       <div
         v-for="board in store.appBoards"
         :key="board.id"
-        class="mb-3 border border-dark d-flex flex-column justify-content-center align-items-center my-custom-col p-2"
-      >
+        class="mb-3 border border-dark d-flex flex-column justify-content-center align-items-center my-custom-col p-2">
         <div class="d-flex flex-row col-12">
           <div class="boardName col-10 d-flex justify-content-center" @click="selectBoard(board)">
             <h2>{{ board.name }}</h2>
