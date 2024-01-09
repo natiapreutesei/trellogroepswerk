@@ -42,6 +42,11 @@ onMounted(() => {
   <div class="container-fluid">
     <div class="row">
       <div class="col-12">
+        <div
+          id="griptitle"
+          :class="['text-center text-bg-light m-0 fs-1 rounded-top-3 border-4 border-top border-start border-end']">
+          <i class="bi bi-grip-horizontal"></i>
+        </div>
         <div class="d-flex flex-row justify-content-center mb-3">
           <h1 class="my-0 me-2">{{ props.listName.name }}</h1>
           <button @click="store.deleteList(props.listId)" class="btn btn-danger">x</button>
