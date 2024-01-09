@@ -1,46 +1,67 @@
 <script setup>
 // We importeren de `useToDoListStore` functie uit onze `toDoList.js` store.
 // Deze functie stelt ons in staat om onze to-do list store te gebruiken, die onze to-do data bevat.
-import { useToDoListStore } from '@/stores/toDoList.js';
-// En we importeren ook de functie `storeToRefs` van de pinia library.
-// De storeToRefs functie komt uit de Pinia library. Pinia is een state management library voor Vue.js en is een alternatief voor Vuex.
-// In Pinia wordt een store gebruikt om de state van een toepassing of component te beheren.
-// De storeToRefs functie is een hulpmiddel in Pinia om een reactive store object om te zetten naar een object
-// met meerdere reactive eigenschappen. Dit maakt het gemakkelijker om store eigenschappen te gebruiken
-// in Vue templates of setup functies.
-// import { storeToRefs } from 'pinia';
+import { useToDoListStore } from '@/stores/toDoList.js'
+// Importing 'ref' and 'watch' from Vue's Composition API.
+import { ref, watch } from 'vue'
 
 // We creëren een instantie van onze to-do list store
 const store = useToDoListStore();
-
-// Met `storeToRefs` conventeren we onze to-do list store naar een reeks `refs`,
-// waardoor het gemakkelijker is om ermee te werken in de Vue template.
-// const { toDoList } = storeToRefs(store);
-
-// We halen ook de functies `toggleCompleted` en `deleteToDo` uit de store op.
-// `toggleCompleted` wisselt de voltooiingsstatus van een to-do item,
-// en `deleteToDo` verwijdert een to-do item uit de lijst.
-const { toggleCompleted, deleteToDo } = store;
-
 const props = defineProps({
   listId: String
 });
+// Creating a reactive reference 'listTasks' initialized with an empty array.
+// 'listTasks' will be reactive and can react to changes.
+const listTasks = ref([]);
 
-import { computed } from 'vue';
+// Setting up a watcher to observe changes in the tasks array of a specific list.
+// It watches the tasks of the list with the ID 'props.listId' in 'store.appLists'.
+watch(() => store.appLists.find(l => l.id === props.listId)?.tasks, (newTasks) => {
+  // When the watched tasks change, this callback updates 'listTasks'.
+  // If 'newTasks' is undefined (e.g., no list found), it defaults to an empty array.
+  listTasks.value = newTasks || [];
+}, { deep: true }); // 'deep: true' makes the watcher sensitive to deep/nested changes.
 
-// let listTasks = [];
-// let displayTasks = ref([]);
-//
-// watch(() => store.appLists.find(l => l.id === props.listId).tasks, newTasks => {
-//   listTasks = newTasks; // Update listTasks when the tasks in the store change
-//   displayTasks.value = [...listTasks]; // Update displayTasks when listTasks changes
-// });
+// Defining a function to handle the end of a drag-and-drop operation.
+const handleDragEnd = (evt) => {
+  const toListId = evt.to.dataset.listId;
+  const fromListId = props.listId;
+  const taskId = evt.item.dataset.taskId;  // Use evt.item for the task ID
 
-const listTasks = computed(() => {
-  const list = store.appLists.find(l => l.id === props.listId);
-  return list ? list.tasks : [];
-});
+  // Logic for moving task to a different list
+  if (toListId && fromListId && taskId && toListId !== fromListId) {
+    console.log(`Moving task ID ${taskId} from list ID ${fromListId} to list ID ${toListId}`);
+    store.moveTask(fromListId, toListId, taskId);
+    listTasks.value = store.appLists.find(l => l.id === fromListId)?.tasks || [];
+  }
+};
 
+const handleDeleteToDo = (itemId) => {
+  listTasks.value = store.deleteToDo(props.listId, itemId);
+};
+
+const handleToggleCompleted = (itemId) => {
+  listTasks.value = store.toggleCompleted(props.listId, itemId);
+};
+
+const draggingElement = ref(null);
+
+const onDragStart = (evt) => {
+  draggingElement.value = evt.item; // Store the reference of the dragging item
+  draggingElement.value.classList.add('shaking');
+};
+
+const onDragEnd = () => {
+  if (draggingElement.value) {
+    draggingElement.value.classList.remove('shaking');
+    draggingElement.value = null; // Clear the reference
+  }
+};
+
+const onEnd = (evt) => {
+  handleDragEnd(evt); // Handles the logic for dragging items
+  onDragEnd(); // Removes the shaking class
+};
 </script>
 
 <template>
@@ -49,31 +70,26 @@ const listTasks = computed(() => {
   <div class="container">
     <div class="row">
       <div class="col-12">
-        <!-- We gebruiken de `v-for` directive om een to-do item voor elk item in onze `toDoList` te renderen. -->
-
-        <drag-item v-model="listTasks" itemKey="id" class="list-group" :options="{ group: 'todoGroup', handle:'.gripicon' }">
+        <drag-item v-model="listTasks" itemKey="id" class="list-group" @start="onDragStart" @end="onEnd" group="todoGroup" :data-list-id="props.listId">
           <template #item="{ element }">
-            <div :key="element.id">
-              <div class="list-group-item d-flex flex-row p-0">
-              <div class="d-flex flex-row align-items-center col-3">
-                <span @click.stop="toggleCompleted(element.id)"><i class="bi bi-check"></i></span>
-                <span @click="deleteToDo(element.id)" class="del-icoon me-3">&#9932;&nbsp;</span>
+            <div :key="element.id" :data-task-id="element.id">
+              <div class="list-group-item d-flex flex-row p-0 draggable-item mb-2">
+                <div class="d-flex flex-row align-items-center col-3">
+                  <span @click.stop="handleDeleteToDo(element.id)"><i class="bi bi-check"></i></span>
+                  <span @click="handleToggleCompleted(element.id)" class="del-icon me-3">&#9932;&nbsp;</span>
+                </div>
+                <div class="d-flex justify-content-between col-9">
+                  <span :class="{ completed: element.completed }" class="d-flex align-items-center justify-content-start fw-bold">
+                    {{ element.item }}
+                  </span>
+                  <span class="d-flex align-items-center justify-content-end px-4 text-bg-secondary gripicon">
+                    <i class="bi bi-grip-vertical"></i>
+                  </span>
+                </div>
               </div>
-
-              <div class="d-flex justify-content-between col-9">
-                <span :class="{ completed: element.completed }" class="d-flex align-items-center justify-content-start fw-bold">
-                  {{ element.item }}
-                </span>
-                <span class="d-flex align-items-center justify-content-end px-4 text-bg-secondary gripicon">
-                  <i class="bi bi-grip-vertical"></i>
-                </span>
-              </div>
-            </div>
             </div>
           </template>
         </drag-item>
-
-
       </div>
     </div>
   </div>
@@ -89,12 +105,12 @@ const listTasks = computed(() => {
   text-decoration-color:red;
 }
 
-.del-icoon, .bi-check{
+.del-icon, .bi-check{
   cursor: pointer; /* Verandert de cursor in een handje wanneer je eroverheen gaat */
   transition: color 0.3s; /* Voegt een overgangseffect toe voor een soepele kleurverandering */
 }
 
-.del-icoon {
+.del-icon {
   font-size:1.5rem;
 }
 
@@ -106,7 +122,22 @@ const listTasks = computed(() => {
   color: green; /* Verandert de kleur wanneer de muis erover beweegt */
 }
 
-.del-icoon:hover{
+.del-icon:hover{
   color: red;
+}
+@keyframes shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px);
+  }
+  75% {
+    transform: translateX(5px);
+  }
+}
+
+.shaking {
+  animation: shake 0.5s ease infinite;
 }
 </style>

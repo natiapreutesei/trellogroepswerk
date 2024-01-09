@@ -42,7 +42,10 @@ onMounted(() => {
   <div class="container-fluid">
     <div class="row">
       <div class="col-12">
-        <h1 class="text-center mb-3">{{ props.listName.name }}</h1>
+        <div class="d-flex flex-row justify-content-center mb-3">
+          <h1 class="my-0 me-2">{{ props.listName.name }}</h1>
+          <button @click="store.deleteList(props.listId)" class="btn btn-danger">x</button>
+        </div>
         <!-- De vorm waarin de gebruiker een nieuw to-do item invoert. -->
         <!-- Wanneer de gebruiker het formulier indient, roepen we onze `addItemAndClear` functie aan. -->
         <!-- De `.prevent` modifier voorkomt dat de standaard form submit actie plaatsvindt, wat de pagina zou vernieuwen. -->
@@ -50,11 +53,12 @@ onMounted(() => {
           <!-- De invoer waar de gebruiker zijn nieuwe to-do item invoert. -->
           <!-- De `v-model` directive maakt tweerichtingsbinding mogelijk tussen het probleem en de invoer. -->
           <!-- De `ref` attribuut geeft ons een referentie naar deze invoer. -->
-          <input class="form-control me-2" v-model="toDo" ref="inputRef" type="text" placeholder="Geef taak in...">
+          <input class="form-control rounded-0 me-2" v-model="toDo" ref="inputRef" type="text" placeholder="Geef taak in...">
           <!-- De knop die de gebruiker klikt om het formulier in te dienen. -->
-          <button class="btn btn-primary">Add</button>
+          <button class="btn btn-dark rounded-0">Add</button>
         </form>
       </div>
     </div>
   </div>
 </template>
+

@@ -41,16 +41,16 @@ const createNewList = () => {
 
             <div class="d-flex justify-content-center my-4">
               <input type="text" class="form fs-4 me-3" placeholder="Geef lijstnaam in..." v-model="listName">
-              <button class="btn btn-success" @click="createNewList">+</button>
+              <button class="btn btn-success bi-clipboard-plus" @click="createNewList"></button>
             </div>
             <!-- Binnen deze div hebben we een h1-element dat fungeert als de hoofdkop voor onze to-do lijstpagina. -->
 
             <!-- Dynamisch renderen van ToDoForm voor elke lijst -->
-          <div class="d-flex flex-row flex-wrap w-100">
+          <div class="d-flex flex-row flex-wrap w-100 ">
             <div
               v-for="list in store.appLists"
               :key="list.id"
-              class="mb-3 my-custom-col"
+              class="mb-3 my-custom-col border border-dark"
             >
               <to-do-form
                 :list-name="list.name"
